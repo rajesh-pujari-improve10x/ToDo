@@ -28,8 +28,6 @@ public class AddTaskActivity extends AppCompatActivity {
             String task = taskTextTxt.getText().toString();
             descriptionTextTxt = findViewById(R.id.description_text_txt);
             String description = descriptionTextTxt.getText().toString();
-            intent.putExtra("Task", task);
-            intent.putExtra("Description", description);
             startActivity(intent);
         });
     }

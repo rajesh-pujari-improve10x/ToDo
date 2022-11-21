@@ -56,8 +56,6 @@ public class TaskListActivity extends AppCompatActivity {
         toDoAdapter = new ToDoAdapter();
         toDoAdapter.setData(todos);
         taskListRv.setAdapter(toDoAdapter);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
     }
 
     public void handleAddBtn() {
