@@ -7,12 +7,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    public ArrayList<ToDo> todos;
+    public ArrayList<ToDo> todos = new ArrayList<>();
     public RecyclerView taskListRv;
     public ToDoAdapter toDoAdapter;
 
@@ -22,32 +28,31 @@ public class TaskListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_list);
         getSupportActionBar().setTitle("Task List");
         handleAddBtn();
-        setupTaskListData();
         setupTaskListRv();
     }
 
-    public void setupTaskListData() {
-        todos = new ArrayList<>();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchData();
+    }
 
-        ToDo getVegetables = new ToDo();
-        getVegetables.task = "get vegetables";
-        getVegetables.description = "for 1 week";
-        todos.add(getVegetables);
+    public void fetchData() {
+        ToDoApi toDoApi = new ToDoApi();
+        ToDoService toDoService = toDoApi.createToDOService();
+        Call<List<ToDo>> call = toDoService.rajeshTasks();
+        call.enqueue(new Callback<List<ToDo>>() {
+            @Override
+            public void onResponse(Call<List<ToDo>> call, Response<List<ToDo>> response) {
+                List<ToDo> toDoList =  response.body();
+                toDoAdapter.setData(toDoList);
+            }
 
-        ToDo readingNews = new ToDo();
-        readingNews.task = "Reading news";
-        readingNews.description = "Explore politics, filmy and sport news";
-        todos.add(readingNews);
-
-        ToDo prepareLunch = new ToDo();
-        prepareLunch.task = "Prepare Lunch";
-        prepareLunch.description = "Biryani and Raitha. yummyyyyy";
-        todos.add(prepareLunch);
-
-        ToDo haveBreakfast = new ToDo();
-        haveBreakfast.task = "Have Breakfast";
-        haveBreakfast.description = "Healthy breakfast for a better morning";
-        todos.add(haveBreakfast);
+            @Override
+            public void onFailure(Call<List<ToDo>> call, Throwable t) {
+                Toast.makeText(TaskListActivity.this, "Failed To Load Data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void setupTaskListRv() {
