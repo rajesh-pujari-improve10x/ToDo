@@ -17,4 +17,6 @@ public interface ToDoService {
     @POST("rajeshTodo")
     Call<ToDo> createTask(@Body ToDo toDo);
 
+    @DELETE("rajeshTodo/{id}")
+    Call<Void> deleteTask(@Path("id") String id);
 }

@@ -14,9 +14,15 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoViewHolder> {
 
     public List<ToDo> toDos;
 
+    public OnItemActionListener onItemActionListener;
+
     public void setData(List<ToDo> todosList) {
         toDos = todosList;
         notifyDataSetChanged();
+    }
+
+    public void setOnItemActionListener(OnItemActionListener actionListener) {
+        onItemActionListener = actionListener;
     }
 
     @NonNull
@@ -32,6 +38,9 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoViewHolder> {
         ToDo toDo = toDos.get(position);
         holder.taskTxt.setText(toDo.task);
         holder.descriptionTxt.setText(toDo.description);
+        holder.deleteBtn.setOnClickListener(view -> {
+            onItemActionListener.onDelete(toDo.id);
+        });
     }
 
     @Override
