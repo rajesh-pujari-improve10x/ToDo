@@ -73,6 +73,12 @@ public class TaskListActivity extends AppCompatActivity {
         });
     }
 
+    public void editTask(ToDo toDo) {
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        intent.putExtra("ToDo", toDo);
+        startActivity(intent);
+    }
+
     public void setupTaskListRv() {
         taskListRv = findViewById(R.id.task_list_rv);
         taskListRv.setLayoutManager(new LinearLayoutManager(this));
@@ -86,7 +92,7 @@ public class TaskListActivity extends AppCompatActivity {
 
             @Override
             public void onEdit(ToDo todo) {
-
+                editTask(todo);
             }
         });
         taskListRv.setAdapter(toDoAdapter);

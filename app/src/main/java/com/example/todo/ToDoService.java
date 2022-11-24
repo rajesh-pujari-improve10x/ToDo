@@ -19,4 +19,7 @@ public interface ToDoService {
 
     @DELETE("rajeshTodo/{id}")
     Call<Void> deleteTask(@Path("id") String id);
+
+    @PUT("rajeshTodo/{id}")
+    Call<Void> updateTask(@Path("id") String id, @Body ToDo toDo);
 }

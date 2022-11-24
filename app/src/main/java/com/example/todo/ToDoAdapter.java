@@ -41,6 +41,9 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoViewHolder> {
         holder.deleteBtn.setOnClickListener(view -> {
             onItemActionListener.onDelete(toDo.id);
         });
+        holder.itemView.setOnClickListener(view -> {
+            onItemActionListener.onEdit(toDo);
+        });
     }
 
     @Override
